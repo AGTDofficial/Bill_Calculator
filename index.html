@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- App Bar -->
+    <header class="app-bar">
+        <div class="app-bar-content">
+            <h1 class="app-title">Bill Calculator</h1>
+            <button class="icon-btn" id="settingsBtn" title="Settings">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M12 1v6m0 6v6m-9-9h6m6 0h6"></path>
+                    <path d="M4.2 4.2l4.3 4.3m7 7l4.3 4.3m0-12.6l-4.3 4.3m-7 7l-4.3 4.3"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-container">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status-item">
+                <span class="status-label">Page:</span>
+                <span class="status-value" id="pageIndicator">1 of 1</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Rows Used:</span>
+                <span class="status-value" id="rowsUsed">0 of 15</span>
+            </div>
+        </div>
+
+        <!-- Table Card -->
+        <div class="table-card">
+            <div class="table-container">
+                <table class="bill-table" id="billTable">
+                    <thead>
+                        <tr>
+                            <th>Serial No.</th>
+                            <th>Rate</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Rows will be generated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Grand Total Bar -->
+        <div class="grand-total-bar">
+            <span class="grand-total-label">Grand Total:</span>
+            <span class="grand-total-value" id="grandTotal">₹0.00</span>
+        </div>
+
+        <!-- Navigation Bar -->
+        <div class="navigation-bar">
+            <button class="nav-btn" id="prevBtn" disabled>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                Previous
+            </button>
+            <span class="page-info" id="pageInfo">Page 1</span>
+            <button class="nav-btn" id="nextBtn">
+                Next
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="action-btn secondary-btn" id="clearPageBtn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>
+                </svg>
+                Clear Page
+            </button>
+            <button class="action-btn secondary-btn" id="clearAllBtn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6m4-6v6"></path>
+                </svg>
+                Clear All
+            </button>
+            <button class="action-btn primary-btn" id="downloadBtn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m4-5l5 5 5-5m-5 5V3"></path>
+                </svg>
+                Download CSV
+            </button>
+        </div>
+    </main>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button class="icon-btn" id="closeSettingsBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="rowsPerPage">Rows Per Page</label>
+                    <div class="slider-container">
+                        <input type="range" id="rowsPerPage" min="5" max="30" value="15" class="slider">
+                        <span class="slider-value" id="rowsValue">15</span>
+                    </div>
+                    <p class="help-text">Set the number of rows per page (5-30)</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="action-btn secondary-btn" id="cancelSettingsBtn">Cancel</button>
+                <button class="action-btn primary-btn" id="applySettingsBtn">Apply</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content small">
+            <div class="modal-header">
+                <h2 id="confirmTitle">Confirm Action</h2>
+            </div>
+            <div class="modal-body">
+                <p id="confirmMessage">Are you sure?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="action-btn secondary-btn" id="cancelConfirmBtn">Cancel</button>
+                <button class="action-btn primary-btn" id="confirmActionBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Button -->
+    <button class="fab" id="helpBtn" title="Help">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3m.08 4h.01"></path>
+        </svg>
+    </button>
+
+    <!-- Help Modal -->
+    <div class="modal" id="helpModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>How to Use Bill Calculator</h2>
+                <button class="icon-btn" id="closeHelpBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body help-content">
+                <h3>Quick Start</h3>
+                <ul>
+                    <li><strong>Enter Data:</strong> Click on Rate or Quantity fields to enter values</li>
+                    <li><strong>Auto Calculate:</strong> Total is automatically calculated (Rate × Quantity)</li>
+                    <li><strong>Serial Numbers:</strong> Generated automatically for each row</li>
+                    <li><strong>Grand Total:</strong> Shows sum of all totals across all pages</li>
+                </ul>
+                <h3>Navigation</h3>
+                <ul>
+                    <li><strong>Next Page:</strong> When rows are filled, click Next to add more items</li>
+                    <li><strong>Previous Page:</strong> Navigate back to view/edit previous pages</li>
+                    <li><strong>Serial Numbers:</strong> Continue sequentially across pages</li>
+                </ul>
+                <h3>Settings</h3>
+                <ul>
+                    <li><strong>Rows Per Page:</strong> Configure 5-30 rows per page (default: 15)</li>
+                    <li><strong>Settings Icon:</strong> Click gear icon in top-right corner</li>
+                </ul>
+                <h3>Actions</h3>
+                <ul>
+                    <li><strong>Clear Page:</strong> Remove all data from current page</li>
+                    <li><strong>Clear All:</strong> Remove all data from all pages</li>
+                    <li><strong>Download CSV:</strong> Export all data to spreadsheet file</li>
+                </ul>
+                <h3>Keyboard Shortcuts</h3>
+                <ul>
+                    <li><strong>Tab:</strong> Move to next field</li>
+                    <li><strong>Enter:</strong> Move to next row</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button class="action-btn primary-btn" id="closeHelpOkBtn">Got it!</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="footer-content">
+            <p>© 2025 AGTD Official</p>
+            <p>Reach us at <a href="mailto:agtdofficial@gmail.com">agtdofficial@gmail.com</a></p>
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>
