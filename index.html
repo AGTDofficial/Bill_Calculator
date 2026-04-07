@@ -11,13 +11,20 @@
     <header class="app-bar">
         <div class="app-bar-content">
             <h1 class="app-title">Bill Calculator</h1>
-            <button class="icon-btn" id="settingsBtn" title="Settings">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="3"></circle>
-                    <path d="M12 1v6m0 6v6m-9-9h6m6 0h6"></path>
-                    <path d="M4.2 4.2l4.3 4.3m7 7l4.3 4.3m0-12.6l-4.3 4.3m-7 7l-4.3 4.3"></path>
-                </svg>
-            </button>
+            <div class="app-bar-buttons">
+                <button class="icon-btn" id="darkModeBtn" title="Toggle Dark Mode">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+                <button class="icon-btn" id="settingsBtn" title="Settings">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M12 1v6m0 6v6m-9-9h6m6 0h6"></path>
+                        <path d="M4.2 4.2l4.3 4.3m7 7l4.3 4.3m0-12.6l-4.3 4.3m-7 7l-4.3 4.3"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -52,6 +59,12 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+
+        <!-- Page Total Bar -->
+        <div class="page-total-bar">
+            <span class="page-total-label">Page Total:</span>
+            <span class="page-total-value" id="pageTotal">Page 1: 0.00</span>
         </div>
 
         <!-- Grand Total Bar -->
@@ -172,6 +185,7 @@
                     <li><strong>Enter Data:</strong> Click on Rate or Quantity fields to enter values</li>
                     <li><strong>Auto Calculate:</strong> Total is automatically calculated (Rate × Quantity)</li>
                     <li><strong>Serial Numbers:</strong> Generated automatically for each row</li>
+                    <li><strong>Page Total:</strong> Shows the sum of all rows in a page</li>
                     <li><strong>Grand Total:</strong> Shows sum of all totals across all pages</li>
                 </ul>
                 <h3>Navigation</h3>

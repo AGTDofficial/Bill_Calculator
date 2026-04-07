@@ -737,6 +737,132 @@ select.form-control {
     format('woff2');
 }
 
+/* Dark Mode Variables */
+:root {
+    --dark-bg-primary: #1a1a1a;
+    --dark-bg-secondary: #2d2d2d;
+    --dark-bg-tertiary: #404040;
+    --dark-text-primary: #ffffff;
+    --dark-text-secondary: #b0b0b0;
+    --dark-border: #404040;
+    --dark-shadow: rgba(0, 0, 0, 0.3);
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: var(--dark-bg-primary);
+    color: var(--dark-text-primary);
+}
+
+body.dark-mode .app-bar {
+    background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+}
+
+body.dark-mode .app-title {
+    color: #d3d3d3;
+}
+
+body.dark-mode .main-container {
+    background-color: var(--dark-bg-primary);
+}
+
+body.dark-mode .status-bar,
+body.dark-mode .table-card,
+body.dark-mode .nav-btn,
+body.dark-mode .page-info,
+body.dark-mode .action-btn {
+    background-color: var(--dark-bg-secondary);
+    color: var(--dark-text-primary);
+    border-color: var(--dark-border);
+}
+
+body.dark-mode .status-label,
+body.dark-mode .page-info {
+    color: var(--dark-text-secondary);
+}
+
+body.dark-mode .status-value {
+    color: var(--dark-text-primary);
+}
+
+body.dark-mode .bill-table thead {
+    background: linear-gradient(135deg, #404040 0%, #2d2d2d 100%);
+}
+
+body.dark-mode .bill-table tbody tr {
+    border-bottom-color: var(--dark-border);
+}
+
+body.dark-mode .bill-table tbody tr:nth-child(even) {
+    background-color: var(--dark-bg-tertiary);
+}
+
+body.dark-mode .bill-table tbody tr:hover {
+    background-color: #4a4a4a;
+}
+
+body.dark-mode .bill-table input {
+    background-color: var(--dark-bg-tertiary);
+    color: var(--dark-text-primary);
+    border-color: var(--dark-border);
+}
+
+body.dark-mode .bill-table input:focus {
+    background-color: var(--dark-bg-secondary);
+    border-color: #2196F3;
+}
+
+body.dark-mode .bill-table input:disabled {
+    background-color: var(--dark-bg-primary);
+    color: var(--dark-text-secondary);
+}
+
+body.dark-mode .page-total-bar {
+    background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+}
+
+body.dark-mode .grand-total-bar {
+    background: linear-gradient(135deg, #f57c00 0%, #e65100 100%);
+    color: var(--dark-text-primary);
+}
+
+body.dark-mode .modal-content {
+    background-color: var(--dark-bg-secondary);
+    color: var(--dark-text-primary);
+}
+
+body.dark-mode .modal-header,
+body.dark-mode .modal-footer {
+    border-color: var(--dark-border);
+}
+
+body.dark-mode .form-control {
+    background-color: var(--dark-bg-tertiary);
+    color: var(--dark-text-primary);
+    border-color: var(--dark-border);
+}
+
+body.dark-mode .slider {
+    background: var(--dark-border);
+}
+
+body.dark-mode .help-content h3 {
+    color: #64b5f6;
+}
+
+body.dark-mode .help-content li:before {
+    color: #64b5f6;
+}
+
+body.dark-mode .app-footer {
+    background-color: var(--dark-bg-secondary);
+    color: var(--dark-text-secondary);
+}
+
+body.dark-mode .app-footer a {
+    color: #64b5f6;
+}
+
 /* END PERPLEXITY DESIGN SYSTEM */
 /* Reset and Base Styles */
 * {
@@ -773,9 +899,14 @@ body {
     height: 64px;
 }
 
+.app-bar-buttons {
+    display: flex;
+    gap: 6px;
+}
+
 .app-title {
-    font-size: 20px;
-    font-weight: 500;
+    font-size: 28px;
+    font-weight: 650;
     letter-spacing: 0.15px;
 }
 
@@ -925,6 +1056,31 @@ body {
 .bill-table input.total-input {
     font-weight: 600;
     color: #2196F3;
+}
+
+/* Page Total Bar */
+.page-total-bar {
+    background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+    color: white;
+    padding: 16px 20px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
+    margin-bottom: 16px;
+}
+
+.page-total-label {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.page-total-value {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
 }
 
 /* Grand Total Bar */
@@ -1118,7 +1274,7 @@ body {
 .modal-header h2 {
     font-size: 20px;
     font-weight: 600;
-    color: #212121;
+    color: #d3d3d3;
 }
 
 .modal-body {
@@ -1147,7 +1303,7 @@ body {
     display: block;
     margin-bottom: 12px;
     font-weight: 600;
-    color: #212121;
+    color: #747272;
     font-size: 14px;
 }
 
@@ -1237,6 +1393,7 @@ body {
     position: relative;
     font-size: 14px;
     line-height: 1.6;
+    color: #d3d3d3;
 }
 
 .help-content li:before {
@@ -1248,7 +1405,7 @@ body {
 }
 
 .help-content strong {
-    color: #212121;
+    color: #747272;
     font-weight: 600;
 }
 
@@ -1288,7 +1445,7 @@ body {
     }
 
     .app-title {
-        font-size: 18px;
+        font-size: 24px;
     }
 
     .main-container {

@@ -5,13 +5,65 @@ const state = {
     rowsPerPage: 15,
     pages: {}, // Store data for each page
     minRows: 5,
-    maxRows: 30
+    maxRows: 30,
+    darkMode: false
 };
 
 let pendingConfirmAction = null;
 
+// Dark Mode Functions
+function toggleDarkMode() {
+    state.darkMode = !state.darkMode;
+    updateDarkMode();
+    saveDarkModePreference();
+}
+
+function updateDarkMode() {
+    const body = document.body;
+    const darkModeBtn = document.getElementById('darkModeBtn');
+    
+    if (state.darkMode) {
+        body.classList.add('dark-mode');
+        darkModeBtn.innerHTML = `
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+        `;
+        darkModeBtn.title = "Toggle Light Mode";
+    } else {
+        body.classList.remove('dark-mode');
+        darkModeBtn.innerHTML = `
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+        `;
+        darkModeBtn.title = "Toggle Dark Mode";
+    }
+}
+
+function saveDarkModePreference() {
+    localStorage.setItem('darkMode', state.darkMode);
+}
+
+function loadDarkModePreference() {
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode !== null) {
+        state.darkMode = savedDarkMode === 'true';
+        updateDarkMode();
+    }
+}
+
 // Initialize Application
 function init() {
+    loadDarkModePreference();
     initializePage(1);
     renderTable();
     updateUI();
@@ -129,6 +181,7 @@ function handleInputChange(e) {
     
     // Update grand total
     updateGrandTotal();
+    updatePageTotal();
     updateRowsUsed();
 }
 
@@ -162,6 +215,18 @@ function handleKeyDown(e) {
     }
 }
 
+// Calculate page total for current page
+function calculatePageTotal() {
+    let pageTotal = 0;
+    const currentPageData = state.pages[state.currentPage];
+    if (currentPageData) {
+        currentPageData.forEach(row => {
+            pageTotal += row.total;
+        });
+    }
+    return pageTotal;
+}
+
 // Calculate grand total across all pages
 function calculateGrandTotal() {
     let grandTotal = 0;
@@ -171,6 +236,12 @@ function calculateGrandTotal() {
         });
     });
     return grandTotal;
+}
+
+// Update page total display
+function updatePageTotal() {
+    const pageTotal = calculatePageTotal();
+    document.getElementById('pageTotal').textContent = `Page ${state.currentPage}: ${formatCurrency(pageTotal)}`;
 }
 
 // Update grand total display
@@ -193,6 +264,9 @@ function updateUI() {
     // Update navigation buttons
     document.getElementById('prevBtn').disabled = state.currentPage === 1;
     document.getElementById('nextBtn').disabled = false;
+    
+    // Update page total
+    updatePageTotal();
     
     // Update grand total
     updateGrandTotal();
@@ -385,6 +459,9 @@ function closeHelp() {
 
 // Attach Event Listeners
 function attachEventListeners() {
+    // Dark mode toggle
+    document.getElementById('darkModeBtn').addEventListener('click', toggleDarkMode);
+    
     // Navigation
     document.getElementById('prevBtn').addEventListener('click', previousPage);
     document.getElementById('nextBtn').addEventListener('click', nextPage);
