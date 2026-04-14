@@ -4,13 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bill Calculator</title>
+    <meta name="description" content="Fast, offline-friendly bill calculator to enter rate & quantity, auto-calculate totals, manage pages, and export to CSV. Includes a built-in mini calculator.">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#2196F3">
+
+    <!-- Favicons / App Icons -->
+    <link rel="icon" type="image/png" href="assets/logobca.png">
+    <link rel="apple-touch-icon" href="assets/logobca.png">
+    <link rel="manifest" href="site.webmanifest">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Bill Calculator">
+    <meta property="og:description" content="Enter rate & quantity, auto-calculate totals, manage pages, and export to CSV.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="assets/logobca.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Bill Calculator">
+    <meta name="twitter:description" content="Enter rate & quantity, auto-calculate totals, manage pages, and export to CSV.">
+    <meta name="twitter:image" content="assets/logobca.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- App Bar -->
     <header class="app-bar">
         <div class="app-bar-content">
-            <h1 class="app-title">Bill Calculator</h1>
+            <h1 class="app-title"><span style="color: rgb(23, 138, 37);">Bill</span> <span style="color: #242171;">Calculator</span></h1>
             <div class="app-bar-buttons">
                 <button class="icon-btn" id="darkModeBtn" title="Toggle Dark Mode">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -159,6 +180,11 @@
         </div>
     </div>
 
+    <!-- Calculator Button -->
+    <button class="fab" id="calcBtn" title="Calculator" aria-label="Calculator">
+        <i class="fas fa-calculator"></i>
+    </button>
+
     <!-- Help Button -->
     <button class="fab" id="helpBtn" title="Help">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -166,6 +192,53 @@
             <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3m.08 4h.01"></path>
         </svg>
     </button>
+
+    <!-- Calculator Modal -->
+    <div class="modal" id="calcModal" role="dialog" aria-modal="true" aria-labelledby="calcTitle">
+        <div class="modal-content small calculator-content">
+            <div class="modal-header">
+                <h2 id="calcTitle">Calculator</h2>
+                <button class="icon-btn" id="closeCalcBtn" aria-label="Close calculator">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body calculator-body">
+                <div class="calculator-display" id="calcDisplay" role="status" aria-live="polite">
+    <div class="calculator-operation" id="calcOperation"></div>
+    <div class="calculator-current" id="calcCurrent">0</div>
+</div>
+                <div class="calculator-keys" aria-label="Calculator keypad">
+                    <button type="button" class="calc-key calc-fn" data-action="clear">AC</button>
+                    <button type="button" class="calc-key calc-fn" data-action="backspace"><i class="fas fa-backspace"></i></button>
+                    <button type="button" class="calc-key calc-op" data-action="percent">%</button>
+                    <button type="button" class="calc-key calc-op" data-action="operator" data-op="/">÷</button>
+
+                    <button type="button" class="calc-key" data-action="digit" data-digit="7">7</button>
+                    <button type="button" class="calc-key" data-action="digit" data-digit="8">8</button>
+                    <button type="button" class="calc-key" data-action="digit" data-digit="9">9</button>
+                    <button type="button" class="calc-key calc-op" data-action="operator" data-op="*">×</button>
+
+                    <button type="button" class="calc-key" data-action="digit" data-digit="4">4</button>
+                    <button type="button" class="calc-key" data-action="digit" data-digit="5">5</button>
+                    <button type="button" class="calc-key" data-action="digit" data-digit="6">6</button>
+                    <button type="button" class="calc-key calc-op" data-action="operator" data-op="-">−</button>
+
+                    <button type="button" class="calc-key" data-action="digit" data-digit="1">1</button>
+                    <button type="button" class="calc-key" data-action="digit" data-digit="2">2</button>
+                    <button type="button" class="calc-key" data-action="digit" data-digit="3">3</button>
+                    <button type="button" class="calc-key calc-op" data-action="operator" data-op="+">+</button>
+
+                    <button type="button" class="calc-key" data-action="decimal">.</button>
+                    <button type="button" class="calc-key calc-zero" data-action="digit" data-digit="0">0</button>
+                    <button type="button" class="calc-key calc-eq" data-action="equals">=</button>
+                </div>
+                <div class="calculator-hint">Tip: You can type using your keyboard (Esc closes).</div>
+            </div>
+        </div>
+    </div>
 
     <!-- Help Modal -->
     <div class="modal" id="helpModal">
@@ -187,6 +260,7 @@
                     <li><strong>Serial Numbers:</strong> Generated automatically for each row</li>
                     <li><strong>Page Total:</strong> Shows the sum of all rows in a page</li>
                     <li><strong>Grand Total:</strong> Shows sum of all totals across all pages</li>
+                    <li><strong>Small Calculator:</strong> There is a Calculator floating button at bottom right of screen which opens small calculator for performing regular calculations</li>
                 </ul>
                 <h3>Navigation</h3>
                 <ul>
@@ -217,15 +291,13 @@
         </div>
     </div>
 
-    <script src="app.js"></script>
-    <!-- Footer -->
     <footer class="app-footer">
         <div class="footer-content">
             <p>© 2025 AGTD Official</p>
-            <p>Reach us at <a href="mailto:agtdofficial@gmail.com">agtdofficial@gmail.com</a></p>
+            <p>Reach us at <a id="supportEmailLink" href="mailto:agtdofficial@gmail.com">agtdofficial@gmail.com</a></p>
         </div>
     </footer>
-    
-    <script src="script.js"></script>
+
+    <script src="app.js"></script>
 </body>
 </html>
