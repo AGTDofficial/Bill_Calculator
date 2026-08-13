@@ -674,10 +674,31 @@ function calcPercent() {
         calcClearAll();
         return;
     }
+
     const current = calcCurrentValue();
     if (!Number.isFinite(current)) return;
-    const next = current / 100;
-    calcState.currentValue = formatForCalcDisplay(next);
+
+    let percentValue;
+
+    if (calcState.previousValue !== null && calcState.operation) {
+        percentValue = calcState.previousValue * (current / 100);
+        if (calcState.operation === '*') {
+            percentValue = percentValue;
+        } else if (calcState.operation === '+') {
+            percentValue = calcState.previousValue + percentValue;  
+        } else if (calcState.operation === '-') {
+            percentValue = calcState.previousValue - percentValue;  
+        } else if (calcState.operation === '/') {
+            percentValue = calcState.previousValue / percentValue;  
+        }
+    } else {
+        // Standalone percentage: 50% -> 0.5
+        percentValue = current / 100;
+    }
+
+    calcState.currentValue = formatForCalcDisplay(percentValue);
+    calcState.previousValue = null;
+    calcState.operation = null;
     calcState.waitingForNewValue = true;
     updateCalcDisplay();
 }

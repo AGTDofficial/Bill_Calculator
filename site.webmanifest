@@ -1,5 +1,5 @@
 {
-  "name": "Bill Calculator",
+  "name": "Shop Bill Calculator",
   "short_name": "BillCalc",
   "description": "Bill calculator for shopkeepers with page totals, grand totals, CSV export, and a mini calculator.",
   "start_url": "./",
